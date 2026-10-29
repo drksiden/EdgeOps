@@ -1,0 +1,1 @@
+DROP TABLE edgeops_infrastructure_metadata;

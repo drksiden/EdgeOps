@@ -1,0 +1,8 @@
+pmOnFail: ignore
+
+allowBuilds:
+  unrs-resolver: false
+
+minimumReleaseAgeExclude:
+  - '@next/*'
+  - next
