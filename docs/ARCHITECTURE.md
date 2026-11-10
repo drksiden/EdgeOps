@@ -182,6 +182,8 @@ Device Channel ---- Point Mapping -> Asset Point
 
 Describes what hardware physically exposes.
 
+Implementation note: Gateways and Devices carry `organization_id` alongside `site_id`; composite database foreign keys guarantee both identify the same tenant. Published Device Profile Versions are immutable application contracts, and Device Channels are instantiated from their Channel Definitions when a Device is commissioned.
+
 Example:
 
 ```text

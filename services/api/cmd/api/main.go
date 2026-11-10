@@ -49,7 +49,7 @@ func run() int {
 		logger.Info("database connection ready")
 	}
 
-	handler := httptransport.NewHandler(db)
+	handler := httptransport.NewHandler(db, db)
 	application := app.New(cfg.HTTPAddr, handler, logger)
 
 	logger.Info("starting EdgeOps API", "http_addr", cfg.HTTPAddr)

@@ -26,7 +26,7 @@ created_at
 updated_at
 ```
 
-### `memberships`
+### `organization_memberships`
 
 ```text
 id
@@ -35,6 +35,8 @@ organization_id -> organizations.id
 role
 created_at
 ```
+
+The Phase 2 migration uses the explicit table name `organization_memberships` to avoid ambiguity as more scoped membership types are introduced later.
 
 Later, site-scoped permissions can be modeled separately instead of encoding all access into one role column.
 
@@ -61,6 +63,7 @@ manufacturer
 name
 model
 description
+status
 created_at
 updated_at
 ```
@@ -71,11 +74,9 @@ updated_at
 id
 device_profile_id -> device_profiles.id
 version
-protocol
-transport
 status
-published_at
 created_at
+published_at nullable
 ```
 
 Recommended unique constraint:
@@ -94,7 +95,7 @@ name
 kind
 data_type
 access
-address_text
+hardware_ref
 unit
 metadata jsonb
 created_at
@@ -118,7 +119,6 @@ hardware_model
 software_version
 status
 last_seen_at
-config_revision
 created_at
 updated_at
 ```
@@ -151,6 +151,8 @@ created_at
 updated_at
 ```
 
+Phase 3 permits exactly one connection per Device through a unique constraint on `device_id`. Normal inventory DTOs expose only its type, not the configuration payload.
+
 Example `config` for Modbus RTU:
 
 ```json
@@ -171,7 +173,6 @@ id
 device_id -> devices.id
 channel_definition_id -> channel_definitions.id
 enabled
-metadata jsonb
 created_at
 updated_at
 ```
@@ -181,6 +182,8 @@ Recommended unique constraint:
 ```text
 (device_id, channel_definition_id)
 ```
+
+Creating a Device inserts its connection and all Device Channels from the selected published Profile Version in one transaction.
 
 ## 3. Semantic model tables
 

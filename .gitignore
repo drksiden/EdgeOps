@@ -15,3 +15,9 @@ node_modules
 .next/
 *.tsbuildinfo
 .DS_Store
+
+# ESP-IDF local configuration and build output
+firmware/**/build/
+firmware/**/managed_components/
+firmware/**/sdkconfig
+firmware/**/sdkconfig.old

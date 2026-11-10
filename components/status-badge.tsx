@@ -2,14 +2,19 @@ import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import type { ConnectionStatus, AlarmSeverity, AlarmState } from '@/lib/mock-data'
 
-const connectionMap: Record<ConnectionStatus, { label: string; variant: 'success' | 'warning' | 'critical' | 'info' | 'default' }> = {
+type InfrastructureStatus = ConnectionStatus | 'provisioning' | 'disabled' | 'error'
+
+const connectionMap: Record<InfrastructureStatus, { label: string; variant: 'success' | 'warning' | 'critical' | 'info' | 'default' }> = {
   online: { label: 'Online', variant: 'success' },
   offline: { label: 'Offline', variant: 'critical' },
   warning: { label: 'Warning', variant: 'warning' },
   updating: { label: 'Updating', variant: 'info' },
+  provisioning: { label: 'Provisioning', variant: 'info' },
+  disabled: { label: 'Disabled', variant: 'default' },
+  error: { label: 'Error', variant: 'critical' },
 }
 
-export function ConnectionBadge({ status, className }: { status: ConnectionStatus; className?: string }) {
+export function ConnectionBadge({ status, className }: { status: InfrastructureStatus; className?: string }) {
   const { label, variant } = connectionMap[status]
   return (
     <Badge variant={variant} className={className}>
@@ -48,6 +53,9 @@ const dotColor: Record<string, string> = {
   critical: 'bg-destructive',
   offline: 'bg-muted-foreground',
   updating: 'bg-[var(--info)]',
+  provisioning: 'bg-[var(--info)]',
+  disabled: 'bg-muted-foreground',
+  error: 'bg-destructive',
 }
 
 export function StatusDot({ status, pulse }: { status: string; pulse?: boolean }) {

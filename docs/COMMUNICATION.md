@@ -54,13 +54,18 @@ edgeops/v1/gateways/{gatewayId}/down/config
 edgeops/v1/gateways/{gatewayId}/down/ota
 ```
 
-For native devices, a parallel device namespace may be introduced later:
+Phase 3.5 introduces the native-device namespace:
 
 ```text
-edgeops/v1/devices/{deviceId}/...
+edgeops/v1/devices/{deviceId}/up/presence
+edgeops/v1/devices/{deviceId}/up/state
+edgeops/v1/devices/{deviceId}/up/events
+edgeops/v1/devices/{deviceId}/up/telemetry
+edgeops/v1/devices/{deviceId}/down/commands
+edgeops/v1/devices/{deviceId}/down/config
 ```
 
-Do not finalize a second namespace until the native device workflow is implemented.
+Only presence and state are implemented by the Phase 3.5 firmware. The other topics are reserved for later runtime phases.
 
 ## 3. Common message envelope
 

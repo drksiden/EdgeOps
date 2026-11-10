@@ -5,8 +5,12 @@ import (
 	"errors"
 	"time"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
+
+type Row = pgx.Row
+type Rows = pgx.Rows
 
 type Pool struct {
 	pool *pgxpool.Pool
@@ -35,6 +39,18 @@ func Open(ctx context.Context, databaseURL string) (*Pool, error) {
 
 func (p *Pool) Ping(ctx context.Context) error {
 	return p.pool.Ping(ctx)
+}
+
+func (p *Pool) Query(ctx context.Context, sql string, args ...any) (Rows, error) {
+	return p.pool.Query(ctx, sql, args...)
+}
+
+func (p *Pool) QueryRow(ctx context.Context, sql string, args ...any) Row {
+	return p.pool.QueryRow(ctx, sql, args...)
+}
+
+func (p *Pool) Begin(ctx context.Context) (pgx.Tx, error) {
+	return p.pool.Begin(ctx)
 }
 
 func (p *Pool) Close() {

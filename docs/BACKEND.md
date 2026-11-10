@@ -2,7 +2,7 @@
 
 ## Purpose
 
-`services/api` is the initial EdgeOps modular monolith. It exposes typed HTTP operations, owns PostgreSQL access, and will later communicate with EMQX. This phase contains infrastructure endpoints only; it intentionally has no EdgeOps domain resources or MQTT consumer.
+`services/api` is the initial EdgeOps modular monolith. It exposes typed HTTP operations, owns PostgreSQL access, and will later communicate with EMQX. Tenant/Site and physical inventory resources are persisted; MQTT runtime behavior remains intentionally absent.
 
 The repository copy has no usable Git remote metadata, so the service currently uses the local-only Go module path `edgeops.local/services/api`. Replace it only after a canonical repository namespace is established.
 
@@ -16,6 +16,8 @@ services/api/
   internal/config/         environment configuration
   internal/database/       pgx connection pool
   internal/health/         liveness/readiness behavior
+  internal/tenant/         organizations and sites persistence
+  internal/physical/       versioned profiles, gateways, devices, connections and channels
   internal/transport/http/ chi and Huma transport
   migrations/              ordered SQL migrations
 ```
@@ -92,6 +94,6 @@ go test ./...
 go build -buildvcs=false ./...
 ```
 
-The HTTP tests use a small readiness-check interface, so liveness and both readiness outcomes are verified without a production database.
+The HTTP tests use a small readiness-check interface, so liveness and readiness outcomes are verified without a production database. Physical validation has unit tests; transaction, uniqueness, channel-instantiation, and tenant-isolation integration tests run when `EDGEOPS_TEST_DATABASE_URL` is set.
 
 The downloaded workspace has placeholder `.git` metadata rather than a usable Git repository, so the build command disables VCS stamping. A normal Git clone can use `go build ./...`.

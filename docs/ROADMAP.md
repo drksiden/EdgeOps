@@ -52,6 +52,8 @@ backend tests pass
 
 Goal: replace the first slice of mock data with real persistence.
 
+Status: implemented as the first persisted frontend slice. Organizations, development membership, and Sites are stored in PostgreSQL; the Sites UI lists, creates, views, and edits them through the Go API. Full authentication remains intentionally deferred.
+
 Implement:
 
 - organizations;
@@ -69,6 +71,8 @@ Exit criteria:
 ## Phase 3 — Device profiles and device commissioning
 
 Goal: persist the physical model.
+
+Status: implemented. PostgreSQL now stores immutable versioned profile contracts, tenant-safe Gateways, Devices, validated connection configuration, and concrete Device Channels instantiated transactionally. The six engineering inventory routes read the Go API; MQTT runtime remains deferred.
 
 Implement:
 
@@ -96,6 +100,14 @@ Select Device Profile
 -> instantiate Channels
 -> device appears Unmapped
 ```
+
+## Phase 3.5 — Native ESP32-C3 firmware bootstrap
+
+Goal: validate the physical ESP32-C3 -> Wi-Fi -> MQTT -> EMQX identity path.
+
+Status: firmware source and configuration are implemented for retained presence/Last Will and diagnostic state heartbeats. The `esp32c3` image builds successfully with ESP-IDF 6.1 and `espressif/mqtt` 1.1.0; flash and broker validation require a connected ESP32-C3.
+
+This phase deliberately adds no Go MQTT consumer or Device Channel runtime.
 
 ## Phase 4 — Asset types, assets, points, mappings
 

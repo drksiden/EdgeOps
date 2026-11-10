@@ -1,0 +1,37 @@
+menu "EdgeOps C3 Node"
+
+config EDGEOPS_WIFI_SSID
+    string "Wi-Fi SSID"
+    default ""
+    help
+        Development Wi-Fi network name. Do not commit generated sdkconfig files.
+
+config EDGEOPS_WIFI_PASSWORD
+    string "Wi-Fi password"
+    default ""
+    help
+        Development Wi-Fi password. Stored only in the local generated sdkconfig.
+
+config EDGEOPS_MQTT_BROKER_URI
+    string "MQTT broker URI"
+    default ""
+    help
+        Broker address reachable from the ESP32-C3. localhost refers to the device,
+        so use the development computer's LAN address.
+
+config EDGEOPS_DEVICE_ID
+    string "Persisted EdgeOps Device ID"
+    default "00000000-0000-4000-8000-000000003000"
+    help
+        UUID of the Device persisted by the EdgeOps physical inventory API.
+
+config EDGEOPS_DEVICE_NAME
+    string "Human-readable device name"
+    default "Control Node #1"
+
+config EDGEOPS_HEARTBEAT_PERIOD_SECONDS
+    int "State heartbeat period in seconds"
+    range 5 60
+    default 10
+
+endmenu
